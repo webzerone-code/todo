@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TaskRequest;
 use App\Models\Task;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use Validator;
@@ -17,7 +18,17 @@ class TasksController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->per_page ?? 100;
-        $task = Task::query()->where('user_id',Auth::id())->orderBy('status')->orderBy('id','desc')->paginate($perPage);
+        $search = $request->search ?? null;
+
+        if ($search) {
+            $task = Task::query()->where('user_id', Auth::id())->when($search, function ($query) use ($search) {
+                $query->where('title', 'like', "%{$search}%")
+                    ->orWhere('description', 'like', "%{$search}%");
+            })->orderBy('status')->orderBy('id', 'desc')->paginate($perPage);
+        } else {
+            $task = Task::query()->where('user_id', Auth::id())->orderBy('status')->orderBy('id', 'desc')->paginate($perPage);
+        }
+
         return response()->json($task, 200);
     }
 
