@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\TaskRequest;
 use App\Models\Task;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Request;
 use Validator;
 
 class TasksController extends Controller
@@ -13,9 +14,10 @@ class TasksController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $task = Task::query()->where('user_id',Auth::id())->orderBy('id','desc')->get();
+        $perPage = $request->per_page ?? 100;
+        $task = Task::query()->where('user_id',Auth::id())->orderBy('status')->orderBy('id','desc')->paginate($perPage);
         return response()->json($task, 200);
     }
 
