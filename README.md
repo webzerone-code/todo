@@ -30,3 +30,12 @@ DELETE          api/tasks/{id}<br/>
 
 -- Postman Collection<br/>
 todo.postman_collection.json<br/>
+
+-- System Design Task 
+the system design task print screens can be found on SystemDesignATS/
+SystemDesignATS/apiroutes.png
+SystemDesignATS/ATS.db.drawio.png
+SystemDesignATS/react.png
+
+-- Queries 
+the requested queries can be found on the root of the project in Queries.sql file 
