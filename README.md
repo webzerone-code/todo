@@ -1,4 +1,4 @@
-This is Sample todo app<br/>
+This is Sample Laravel todo app<br/>
 -- Installation <br/>
 1-clone or download the repo<br/>
 2- run <br/>
